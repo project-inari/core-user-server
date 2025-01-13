@@ -12,18 +12,13 @@ type cacheRepository struct {
 	client *redis.Client
 }
 
-// CacheRepositoryConfig represents the configuration of the cache repository
-type CacheRepositoryConfig struct {
-}
-
 // CacheRepositoryDependencies represents the dependencies of the cache repository
 type CacheRepositoryDependencies struct {
 	Client *redis.Client
 }
 
 // NewCacheRepository creates a new cache repository
-func NewCacheRepository(c CacheRepositoryConfig, d CacheRepositoryDependencies) CacheRepository {
-	_ = c
+func NewCacheRepository(d CacheRepositoryDependencies) CacheRepository {
 	return &cacheRepository{
 		client: d.Client,
 	}

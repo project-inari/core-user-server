@@ -1,0 +1,28 @@
+CREATE DATABASE IF NOT EXISTS user;
+\c user;
+
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = CURRENT_TIMESTAMP;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TABLE tbl_users (
+    username VARCHAR(20) PRIMARY KEY UNIQUE NOT NULL,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    phone_no VARCHAR(20) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    selected_locale VARCHAR(2) NOT NULL,
+    user_active BOOLEAN NOT NULL DEFAULT TRUE,
+    stripe_customer_id VARCHAR(100),
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+);
+
+CREATE TRIGGER set_updated_at
+BEFORE UPDATE ON tbl_users
+FOR EACH ROW
+EXECUTE FUNCTION update_updated_at_column();

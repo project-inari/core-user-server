@@ -1,0 +1,60 @@
+name: core-user-server
+
+services:
+  app:
+    container_name: core-user-server
+    build:
+      context: .
+      dockerfile: ./build/docker/Dockerfile.dev
+    volumes:
+      - ./:/src/go
+    ports:
+      - 8080:8080
+    working_dir: /src/go
+    command: air -c .air.toml
+    depends_on:
+      - postgres
+      - redis
+      - wiremock
+    networks:
+      - app-network
+
+  postgres:
+    image: postgres:14.15-alpine3.20
+    container_name: postgres
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: test
+      TZ: Asia/Bangkok
+    ports:
+      - 5432:5432
+    volumes:
+      - ./.docker-volumes/postgres:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  redis:
+    image: redis:7.4.0
+    container_name: redis
+    ports:
+      - 6379:6379
+    command: >
+      --requirepass 1234
+    networks:
+      - app-network
+
+  wiremock:
+    image: wiremock/wiremock:3.9.2
+    container_name: wiremock
+    ports:
+      - 1324:8080
+    volumes:
+      - ./tools/wiremock/__files:/home/wiremock/__files
+      - ./tools/wiremock/mappings:/home/wiremock/mappings
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    external: true

@@ -29,34 +29,17 @@ func NewDatabaseRepository(c DatabaseRepositoryConfig, d DatabaseRepositoryDepen
 	}
 }
 
-// QueryTest returns the test rows queried from test table
-func (r *databaseRepository) QueryTest() (*[]dto.TestEntity, error) {
-	tests := []dto.TestEntity{}
-
+// CreateNewUser creates a new user in the database
+func (r *databaseRepository) CreateNewUser(newUser dto.UserEntity) error {
 	query := `
-		SELECT * FROM tbl_test;
+		INSERT INTO tbl_users (username, uid, first_name, last_name, phone_no, email, selected_locale)
+		VALUES ($1, $2, $3, $4, $5, $6, $7)
 	`
 
-	rows, err := r.client.Query(query)
+	_, err := r.client.Exec(query, newUser.Username, newUser.UID, newUser.FirstName, newUser.LastName, newUser.PhoneNo, newUser.Email, newUser.SelectedLocale)
 	if err != nil {
-		return nil, err
-	}
-	defer func() {
-		if err := rows.Close(); err != nil {
-			return
-		}
-	}()
-
-	for rows.Next() {
-		test := dto.TestEntity{}
-		if err := rows.Scan(&test.ID, &test.Message); err != nil {
-			return nil, err
-		}
-		tests = append(tests, test)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
+		return err
 	}
 
-	return &tests, nil
+	return nil
 }

@@ -12,7 +12,7 @@ import (
 
 // DatabaseRepository represents the repository layer functions of database repository
 type DatabaseRepository interface {
-	QueryTest() (*[]dto.TestEntity, error)
+	CreateNewUser(newUser dto.UserEntity) error
 }
 
 // CacheRepository represents the repository layer functions of cache repository

@@ -2,15 +2,13 @@
 package service
 
 import (
-	"context"
-
 	"github.com/project-inari/core-user-server/dto"
 	"github.com/project-inari/core-user-server/repository"
 )
 
 // Port represents the service layer functions
 type Port interface {
-	DoSetGetCache(ctx context.Context) (*dto.TestModel, error)
+	SignUp(req dto.SignUpReq) (*dto.SignUpRes, error)
 }
 
 type service struct {

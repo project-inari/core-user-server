@@ -1,16 +1,14 @@
 CREATE DATABASE IF NOT EXISTS user;
 \c user;
 
-CREATE OR REPLACE FUNCTION update_updated_at_column()
-RETURNS TRIGGER AS $$
-BEGIN
-    NEW.updated_at = CURRENT_TIMESTAMP;
-    RETURN NEW;
+CREATE OR REPLACE FUNCTION update_updated_at_column() RETURNS TRIGGER AS $$ BEGIN NEW.updated_at = CURRENT_TIMESTAMP;
+RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
 CREATE TABLE tbl_users (
     username VARCHAR(20) PRIMARY KEY UNIQUE NOT NULL,
+    uid VARCHAR(255) UNIQUE NOT NULL,
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,
     phone_no VARCHAR(20) UNIQUE NOT NULL,
@@ -22,7 +20,5 @@ CREATE TABLE tbl_users (
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 );
 
-CREATE TRIGGER set_updated_at
-BEFORE UPDATE ON tbl_users
-FOR EACH ROW
-EXECUTE FUNCTION update_updated_at_column();
+CREATE TRIGGER set_updated_at BEFORE
+UPDATE ON tbl_users FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();

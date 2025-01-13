@@ -1,0 +1,11 @@
+POST http://localhost:8080/v1/signup
+Content-Type: application/json
+{
+    "username": "test1",
+    "uid": "test1uid",
+    "firstName": "testfirst",
+    "lastName": "testlast",
+    "phoneNo": "+66000000000",
+    "email": "test1@example.com",
+    "selectedLocale": "EN"
+}

@@ -1,10 +1,12 @@
 package service
 
 import (
+	"context"
+
 	"github.com/project-inari/core-user-server/dto"
 )
 
-func (s *service) SignUp(req dto.SignUpReq) (*dto.SignUpRes, error) {
+func (s *service) SignUp(ctx context.Context, req dto.SignUpReq) (*dto.SignUpRes, error) {
 	user := dto.UserEntity{
 		Username:       req.Username,
 		UID:            req.UID,
@@ -18,6 +20,11 @@ func (s *service) SignUp(req dto.SignUpReq) (*dto.SignUpRes, error) {
 	err := s.databaseRepository.CreateNewUser(user)
 	if err != nil {
 		return nil, err
+	}
+
+	c := s.cacheRepository.SetUserVerifiedAccount(ctx, req)
+	if c.Err() != nil {
+		return nil, c.Err()
 	}
 
 	return &dto.SignUpRes{

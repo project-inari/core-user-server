@@ -33,7 +33,7 @@ func NewDatabaseRepository(c DatabaseRepositoryConfig, d DatabaseRepositoryDepen
 func (r *databaseRepository) CreateNewUser(newUser dto.UserEntity) error {
 	query := `
 		INSERT INTO tbl_users (username, uid, first_name, last_name, phone_no, email, selected_locale)
-		VALUES ($1, $2, $3, $4, $5, $6, $7)
+		VALUES (?, ?, ?, ?, ?, ?, ?)
 	`
 
 	_, err := r.client.Exec(query, newUser.Username, newUser.UID, newUser.FirstName, newUser.LastName, newUser.PhoneNo, newUser.Email, newUser.SelectedLocale)

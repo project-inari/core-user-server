@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 
@@ -21,6 +22,7 @@ func newHTTPHandler(d Dependencies) *httpHandler {
 }
 
 func (h *httpHandler) SignUp(c echo.Context) error {
+	ctx := context.Background()
 	wrapper := request.ContextWrapper(c)
 
 	req := new(dto.SignUpReq)
@@ -28,7 +30,7 @@ func (h *httpHandler) SignUp(c echo.Context) error {
 		return response.ErrorResponse(c, http.StatusBadRequest, fmt.Sprintf("error - [SignUp] bad request: %v", err), "")
 	}
 
-	res, err := h.d.Service.SignUp(*req)
+	res, err := h.d.Service.SignUp(ctx, *req)
 	if err != nil {
 		return response.ErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("error - [SignUp] internal server error: %v", err), "")
 	}

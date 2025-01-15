@@ -3,7 +3,6 @@ package repository
 
 import (
 	"context"
-	"time"
 
 	"github.com/redis/go-redis/v9"
 
@@ -18,5 +17,5 @@ type DatabaseRepository interface {
 // CacheRepository represents the repository layer functions of cache repository
 type CacheRepository interface {
 	Get(ctx context.Context, key string) *redis.StringCmd
-	Set(ctx context.Context, key string, value interface{}, ttl time.Duration) *redis.StatusCmd
+	SetUserVerifiedAccount(ctx context.Context, p dto.SignUpReq) *redis.StatusCmd
 }

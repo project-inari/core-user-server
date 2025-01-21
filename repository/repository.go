@@ -12,10 +12,11 @@ import (
 // DatabaseRepository represents the repository layer functions of database repository
 type DatabaseRepository interface {
 	CreateNewUser(newUser dto.UserEntity) error
+	GetUserByUsername(username string) (*dto.UserEntity, error)
 }
 
 // CacheRepository represents the repository layer functions of cache repository
 type CacheRepository interface {
 	Get(ctx context.Context, key string) *redis.StringCmd
-	SetUserVerifiedAccount(ctx context.Context, p dto.SignUpReq) *redis.StatusCmd
+	SetUserVerifiedAccount(ctx context.Context, p dto.UserVerifiedAccountCache) *redis.StatusCmd
 }

@@ -9,3 +9,6 @@ Content-Type: application/json
     "email": "test1@example.com",
     "selectedLocale": "EN"
 }
+
+GET http://localhost:8080/v1/inquiry/test1
+Content-Type: application/json

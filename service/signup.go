@@ -22,7 +22,16 @@ func (s *service) SignUp(ctx context.Context, req dto.SignUpReq) (*dto.SignUpRes
 		return nil, err
 	}
 
-	c := s.cacheRepository.SetUserVerifiedAccount(ctx, req)
+	cacheVal := dto.UserVerifiedAccountCache{
+		Username:  req.Username,
+		UID:       req.UID,
+		FirstName: req.FirstName,
+		LastName:  req.LastName,
+		PhoneNo:   req.PhoneNo,
+		Email:     req.Email,
+	}
+
+	c := s.cacheRepository.SetUserVerifiedAccount(ctx, cacheVal)
 	if c.Err() != nil {
 		return nil, c.Err()
 	}

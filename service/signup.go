@@ -31,10 +31,7 @@ func (s *service) SignUp(ctx context.Context, req dto.SignUpReq) (*dto.SignUpRes
 		Email:     req.Email,
 	}
 
-	c := s.cacheRepository.SetUserVerifiedAccount(ctx, cacheVal)
-	if c.Err() != nil {
-		return nil, c.Err()
-	}
+	_ = s.cacheRepository.SetUserVerifiedAccount(ctx, cacheVal)
 
 	return &dto.SignUpRes{
 		Username: req.Username,

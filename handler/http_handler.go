@@ -37,3 +37,17 @@ func (h *httpHandler) SignUp(c echo.Context) error {
 
 	return response.SuccessResponse(c, http.StatusOK, res)
 }
+
+func (h *httpHandler) Inquiry(c echo.Context) error {
+	username := c.Param("username")
+	if username == "" {
+		return response.ErrorResponse(c, http.StatusBadRequest, "error - [Inquiry] bad request: username is required", "")
+	}
+
+	res, err := h.d.Service.Inquiry(username)
+	if err != nil {
+		return response.ErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("error - [Inquiry] internal server error: %v", err), "")
+	}
+
+	return response.SuccessResponse(c, http.StatusOK, res)
+}

@@ -43,3 +43,20 @@ func (r *databaseRepository) CreateNewUser(newUser dto.UserEntity) error {
 
 	return nil
 }
+
+// GetUserByUsername gets a user by username from the database
+func (r *databaseRepository) GetUserByUsername(username string) (*dto.UserEntity, error) {
+	query := `
+		SELECT username, uid, first_name, last_name, phone_no, email, selected_locale
+		FROM tbl_users
+		WHERE username = ?
+	`
+
+	user := new(dto.UserEntity)
+	err := r.client.QueryRow(query, username).Scan(&user.Username, &user.UID, &user.FirstName, &user.LastName, &user.PhoneNo, &user.Email, &user.SelectedLocale)
+	if err != nil {
+		return &dto.UserEntity{}, err
+	}
+
+	return user, nil
+}

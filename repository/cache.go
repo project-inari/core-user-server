@@ -40,7 +40,7 @@ func (r *cacheRepository) Get(ctx context.Context, key string) *redis.StringCmd 
 	return r.client.Get(ctx, key)
 }
 
-func (r *cacheRepository) SetUserVerifiedAccount(ctx context.Context, p dto.SignUpReq) *redis.StatusCmd {
+func (r *cacheRepository) SetUserVerifiedAccount(ctx context.Context, p dto.UserVerifiedAccountCache) *redis.StatusCmd {
 	marshalValue, _ := json.Marshal(p)
 	return r.client.Set(ctx, fmt.Sprintf("%s:%s", r.keyUserVerifiedAccount, p.Username), marshalValue, r.ttlUserVerifiedAccount)
 }

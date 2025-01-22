@@ -11,6 +11,7 @@ import (
 // Port represents the service layer functions
 type Port interface {
 	SignUp(ctx context.Context, req dto.SignUpReq) (*dto.SignUpRes, error)
+	Inquiry(username string) (*dto.InquiryRes, error)
 }
 
 type service struct {

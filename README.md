@@ -2,8 +2,8 @@
 
 GO codebase repository for Inari backend system microservice `core-user-server`.
 
-[Kustomize Repo](URL)<br>
-[ArgoCD](URL)<br>
+[Kustomize Repo](https://github.com/project-inari/core-user-server-cd-config)<br>
+[ArgoCD_ALPHA](https://argocd-alpha.inari-th.com/applications/argocd/core-user-server?view=tree&resource=)<br>
 [Confluence Docs](URL)<br>
 
 ## Development
